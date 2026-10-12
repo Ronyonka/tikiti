@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { z } from "zod";
-import { createTicket, listTickets } from "../db/tickets.js";
+import { createTicket, listTickets, updateTicket } from "../db/tickets.js";
 
 const statusSchema = z.enum(["open", "in_progress", "closed"]);
 const prioritySchema = z.enum(["low", "medium", "high"]);
@@ -21,6 +21,20 @@ const listTicketsSchema = z
     limit: z.coerce.number().int().min(1).max(100).default(20),
   })
   .strict();
+
+const updateTicketParamsSchema = z.object({
+  id: z.string().uuid(),
+});
+
+const updateTicketSchema = z
+  .object({
+    status: statusSchema.optional(),
+    priority: prioritySchema.optional(),
+  })
+  .strict()
+  .refine((input) => input.status !== undefined || input.priority !== undefined, {
+    message: "At least one of status or priority must be provided",
+  });
 
 export async function createTicketHandler(request: Request, response: Response): Promise<void> {
   const parsed = createTicketSchema.safeParse(request.body);
@@ -61,4 +75,44 @@ export async function listTicketsHandler(request: Request, response: Response): 
     limit: parsed.data.limit,
     total: result.total,
   });
+}
+
+export async function updateTicketHandler(request: Request, response: Response): Promise<void> {
+  const parsedParams = updateTicketParamsSchema.safeParse(request.params);
+
+  if (!parsedParams.success) {
+    response.status(400).json({
+      error: "Invalid request parameters",
+      details: parsedParams.error.issues.map((issue) => ({
+        field: issue.path.join(".") || "params",
+        message: issue.message,
+      })),
+    });
+    return;
+  }
+
+  const parsedBody = updateTicketSchema.safeParse(request.body);
+
+  if (!parsedBody.success) {
+    response.status(400).json({
+      error: "Invalid request body",
+      details: parsedBody.error.issues.map((issue) => ({
+        field: issue.path.join(".") || "body",
+        message: issue.message,
+      })),
+    });
+    return;
+  }
+
+  const ticket = await updateTicket(parsedParams.data.id, parsedBody.data);
+
+  if (!ticket) {
+    response.status(404).json({
+      error: "Ticket not found",
+      details: [],
+    });
+    return;
+  }
+
+  response.status(200).json(ticket);
 }

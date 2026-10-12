@@ -19,6 +19,8 @@ export type ListTicketsInput = {
   limit: number;
 };
 
+export type UpdateTicketInput = Partial<Pick<Ticket, "status" | "priority">>;
+
 export type ListTicketsResult = {
   data: Ticket[];
   total: number;
@@ -33,6 +35,32 @@ export async function createTicket(input: CreateTicketInput): Promise<Ticket> {
   );
 
   return result.rows[0];
+}
+
+export async function updateTicket(id: string, input: UpdateTicketInput): Promise<Ticket | null> {
+  const setClauses: string[] = [];
+  const values: Array<string> = [];
+
+  if (input.status !== undefined) {
+    values.push(input.status);
+    setClauses.push(`status = $${values.length}`);
+  }
+
+  if (input.priority !== undefined) {
+    values.push(input.priority);
+    setClauses.push(`priority = $${values.length}`);
+  }
+
+  values.push(id);
+  const result = await pool.query<Ticket>(
+    `UPDATE tickets
+     SET ${setClauses.join(", ")}
+     WHERE id = $${values.length}
+     RETURNING id, title, description, status, priority, created_at`,
+    values,
+  );
+
+  return result.rows[0] ?? null;
 }
 
 export async function listTickets(input: ListTicketsInput): Promise<ListTicketsResult> {
