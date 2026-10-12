@@ -1,0 +1,36 @@
+AGENTS.md
+docs/
+
+node_modules/
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+*.tsbuildinfo
+
+# Environment (commit .env.example, never .env)
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# Test and coverage
+coverage/
+
+# Docker volumes (if you bind-mount Postgres data locally)
+pgdata/
+
+# OS and editor
+.DS_Store
+.vscode/
+.idea/
+# Agent tooling and scratch space (not for reviewers)
+.codex/
+.agents/
+.scratch/
