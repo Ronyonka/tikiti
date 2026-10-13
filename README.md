@@ -16,7 +16,7 @@ Run the following from a fresh clone. The server and client run in two terminals
 1. Clone the repository:
 
    ```bash
-   git clone <repository-url> tikiti
+   git clone https://github.com/Ronyonka/tikiti
    cd tikiti
    ```
 
@@ -62,7 +62,7 @@ Run the following from a fresh clone. The server and client run in two terminals
    npm run dev
    ```
 
-   Open [http://localhost:5173](http://localhost:5173).
+   Open [http://localhost:5173](http://localhost:5173)
 
 ## Seed sample data (optional)
 
@@ -82,12 +82,12 @@ The seed script never touches the test database. Without `--reset`, it refuses t
 
 ## API
 
-| Method | Path | Purpose |
-| --- | --- | --- |
-| POST | `/tickets` | Create a ticket |
-| GET | `/tickets` | List tickets with optional filtering and pagination |
-| PATCH | `/tickets/:id` | Update a ticket's status and/or priority |
-| GET | `/tickets/stats` | Count tickets by status |
+| Method | Path             | Purpose                                             |
+| ------ | ---------------- | --------------------------------------------------- |
+| POST   | `/tickets`       | Create a ticket                                     |
+| GET    | `/tickets`       | List tickets with optional filtering and pagination |
+| PATCH  | `/tickets/:id`   | Update a ticket's status and/or priority            |
+| GET    | `/tickets/stats` | Count tickets by status                             |
 
 ### POST /tickets
 
@@ -195,7 +195,10 @@ Errors use the standard `{ error, details }` shape. Validation details contain `
 {
   "error": "Invalid request body",
   "details": [
-    { "field": "title", "message": "Too small: expected string to have >=1 characters" }
+    {
+      "field": "title",
+      "message": "Too small: expected string to have >=1 characters"
+    }
   ]
 }
 ```
