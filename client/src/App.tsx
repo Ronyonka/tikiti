@@ -76,10 +76,9 @@ function App() {
 
   return (
     <main className="app-shell">
-      <header className="app-header"><h1>Tickets</h1></header>
+      <header className="app-header"><h1>Tickets</h1><CreateTicketForm onSuccess={() => { setStatus(""); setPage(1); reloadAll({ status: "", page: 1 }); }} /></header>
       <StatsRow stats={stats} />
       {statsError ? <p className="stats-error">Stats unavailable: {statsError}</p> : null}
-      <CreateTicketForm onSuccess={() => { setStatus(""); setPage(1); reloadAll({ status: "", page: 1 }); }} />
       <section className="ticket-controls" aria-label="Ticket controls">
         <Filters status={status} pageSize={pageSize} onStatusChange={handleStatusChange} onPageSizeChange={handlePageSizeChange} />
       </section>
