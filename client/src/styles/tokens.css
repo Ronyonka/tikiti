@@ -18,6 +18,7 @@
   --color-priority-low: #94a3b8;
   --color-priority-medium: #dae2fd;
   --color-priority-high: #fdba74;
+  --select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M2 4.5 6 8l4-3.5' stroke='%2394a3b8' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   --font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-size-headline: 24px;
   --font-size-body-md: 16px;
@@ -39,4 +40,5 @@
   --space-16: 16px;
   --space-24: 24px;
   --space-32: 32px;
+  --pagination-button-min-width: 96px;
 }

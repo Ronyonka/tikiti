@@ -6,12 +6,11 @@ import { StatsRow } from "./components/StatsRow";
 import { TicketRow } from "./components/TicketRow";
 import "./App.css";
 
-const PAGE_SIZE = 10;
-
 function App() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [stats, setStats] = useState<Stats | null>(null);
   const [status, setStatus] = useState<TicketStatus | "">("");
+  const [pageSize, setPageSize] = useState(10);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -27,9 +26,14 @@ function App() {
     setError(null);
     setStatsError(null);
 
-    listTickets({ status: status || undefined, page, limit: PAGE_SIZE }, { signal: ticketsController.signal })
+    listTickets({ status: status || undefined, page, limit: pageSize }, { signal: ticketsController.signal })
       .then((response) => {
         if (currentRequestId !== requestId.current) return;
+        if (response.data.length === 0 && response.total > 0 && page > 1) {
+          setTotal(response.total);
+          setPage(Math.ceil(response.total / pageSize));
+          return;
+        }
         setTickets(response.data);
         setTotal(response.total);
       })
@@ -51,7 +55,7 @@ function App() {
       });
 
     return () => { ticketsController.abort(); statsController.abort(); };
-  }, [page, status]);
+  }, [page, pageSize, status]);
 
   useEffect(() => reloadAll(), [reloadAll]);
 
@@ -60,7 +64,12 @@ function App() {
     setPage(1);
   };
 
-  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const handlePageSizeChange = (nextPageSize: number) => {
+    setPageSize(nextPageSize);
+    setPage(1);
+  };
+
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
   return (
     <main className="app-shell">
@@ -68,13 +77,13 @@ function App() {
       <StatsRow stats={stats} />
       {statsError ? <p className="stats-error">Stats unavailable: {statsError}</p> : null}
       <section className="ticket-controls" aria-label="Ticket controls">
-        <Filters status={status} onStatusChange={handleStatusChange} />
-        <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+        <Filters status={status} pageSize={pageSize} onStatusChange={handleStatusChange} onPageSizeChange={handlePageSizeChange} />
       </section>
       {loading ? <p className="loading-state">Loading tickets</p> : null}
       {error ? <div className="request-error" role="alert"><p>{error}</p><button type="button" onClick={reloadAll}>Retry</button></div> : null}
       {!loading && !error && tickets.length === 0 ? <p className="empty-state">{status ? "No tickets with this status" : "No tickets yet"}</p> : null}
       {!loading && !error && tickets.length > 0 ? <ul className="ticket-list">{tickets.map((ticket) => <TicketRow key={ticket.id} ticket={ticket} />)}</ul> : null}
+      {totalPages > 1 ? <div className="pagination-container"><Pagination page={page} totalPages={totalPages} onPageChange={setPage} /></div> : null}
     </main>
   );
 }
