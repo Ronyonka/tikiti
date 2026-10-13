@@ -26,6 +26,8 @@ export type ListTicketsResult = {
   total: number;
 };
 
+export type TicketStats = Record<Ticket["status"], number>;
+
 export async function createTicket(input: CreateTicketInput): Promise<Ticket> {
   const result = await pool.query<Ticket>(
     `INSERT INTO tickets (title, description, status, priority)
@@ -91,4 +93,24 @@ export async function listTickets(input: ListTicketsInput): Promise<ListTicketsR
     data: ticketsResult.rows,
     total: Number(countResult.rows[0].total),
   };
+}
+
+export async function getTicketStats(): Promise<TicketStats> {
+  const result = await pool.query<{ status: Ticket["status"]; count: string }>(
+    `SELECT status, COUNT(*) AS count
+     FROM tickets
+     GROUP BY status`,
+  );
+
+  const stats: TicketStats = {
+    open: 0,
+    in_progress: 0,
+    closed: 0,
+  };
+
+  for (const row of result.rows) {
+    stats[row.status] = Number(row.count);
+  }
+
+  return stats;
 }

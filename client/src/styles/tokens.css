@@ -44,6 +44,7 @@
   --space-32: 32px;
   --control-min-height: 40px;
   --modal-max-width: 480px;
-  --status-select-width: 160px;
+  --status-select-width: 150px;
+  --priority-select-width: 120px;
   --pagination-button-min-width: 96px;
 }

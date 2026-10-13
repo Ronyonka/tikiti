@@ -3,6 +3,8 @@
 .ticket-description { display: -webkit-box; margin: var(--space-8) 0 0; overflow: hidden; color: var(--color-on-surface-variant); font-size: var(--font-size-body-sm); font-weight: var(--font-weight-body-sm); line-height: var(--line-height-body); -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
 .ticket-meta { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-8); margin-top: var(--space-12); }
 .ticket-meta time { color: var(--color-on-surface-variant); font-size: var(--font-size-label); font-weight: var(--font-weight-label); }
-.ticket-meta select { width: var(--status-select-width); margin-left: auto; }
+.ticket-row-controls { display: flex; gap: var(--space-12); margin-left: auto; }
+.ticket-row-controls select:first-child { width: var(--status-select-width); }
+.ticket-row-controls select:last-child { width: var(--priority-select-width); }
 .ticket-status-error { margin: var(--space-8) 0 0; color: var(--color-error); font-size: var(--font-size-body-sm); }
-@media (max-width: 600px) { .ticket-meta select { width: 100%; margin-left: 0; } }
+@media (max-width: 600px) { .ticket-row-controls { width: 100%; margin-left: 0; } .ticket-row-controls select { width: auto !important; flex: 1; } }

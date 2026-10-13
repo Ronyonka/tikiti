@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { z } from "zod";
-import { createTicket, listTickets, updateTicket } from "../db/tickets.js";
+import { createTicket, getTicketStats, listTickets, updateTicket } from "../db/tickets.js";
 
 const statusSchema = z.enum(["open", "in_progress", "closed"]);
 const prioritySchema = z.enum(["low", "medium", "high"]);
@@ -75,6 +75,11 @@ export async function listTicketsHandler(request: Request, response: Response): 
     limit: parsed.data.limit,
     total: result.total,
   });
+}
+
+export async function ticketStatsHandler(_request: Request, response: Response): Promise<void> {
+  const stats = await getTicketStats();
+  response.status(200).json(stats);
 }
 
 export async function updateTicketHandler(request: Request, response: Response): Promise<void> {

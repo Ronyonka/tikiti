@@ -81,10 +81,10 @@ export function createTicket(input: CreateTicketInput): Promise<Ticket> {
   });
 }
 
-export function updateTicketStatus(id: string, status: TicketStatus): Promise<Ticket> {
+export function updateTicket(id: string, changes: { status?: TicketStatus; priority?: TicketPriority }): Promise<Ticket> {
   return request<Ticket>(`/tickets/${encodeURIComponent(id)}`, {
     method: "PATCH",
-    body: JSON.stringify({ status }),
+    body: JSON.stringify(changes),
   });
 }
 
