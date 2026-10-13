@@ -1,0 +1,15 @@
+.create-ticket-form { display: flex; flex-direction: column; gap: var(--space-16); padding: var(--space-16); border: 1px solid var(--color-outline); border-radius: var(--radius-md); background: var(--color-surface-variant); }
+.create-ticket-fields { display: grid; grid-template-columns: 2fr 3fr 1fr; gap: var(--space-16); }
+.form-field { display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; }
+.form-field label { color: var(--color-on-surface-variant); font-size: var(--font-size-label); font-weight: var(--font-weight-label); letter-spacing: var(--letter-spacing-label); text-transform: uppercase; }
+.form-field input, .form-field textarea { width: 100%; border: 1px solid var(--color-outline-strong); border-radius: var(--radius-md); background: var(--color-surface-variant); color: var(--color-on-surface); font: inherit; }
+.form-field input { min-height: var(--control-min-height); padding: 0 var(--space-12); }
+.form-field textarea { min-height: 40px; padding: var(--space-8) var(--space-12); resize: vertical; }
+.form-field input:disabled, .form-field textarea:disabled, .form-field select:disabled { cursor: not-allowed; opacity: 50%; }
+.form-field input:focus-visible, .form-field textarea:focus-visible { outline: 2px solid var(--color-primary-text); outline-offset: 2px; }
+.form-field input[aria-invalid="true"], .form-field textarea[aria-invalid="true"], .form-field select[aria-invalid="true"] { border-color: var(--color-error); }
+.field-error, .form-error { margin: 0; color: var(--color-error); font-size: var(--font-size-body-sm); }
+.create-ticket-form button { align-self: flex-start; min-height: var(--control-min-height); padding: 0 var(--space-16); border: 0; border-radius: var(--radius-md); background: var(--color-primary); color: var(--color-on-primary); cursor: pointer; font-size: var(--font-size-body-sm); font-weight: var(--font-weight-label); }
+.create-ticket-form button:hover:not(:disabled) { background: var(--color-primary-hover); }
+.create-ticket-form button:disabled { cursor: not-allowed; opacity: 50%; }
+@media (max-width: 600px) { .create-ticket-fields { grid-template-columns: 1fr; } }

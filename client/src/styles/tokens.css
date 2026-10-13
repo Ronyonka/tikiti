@@ -40,5 +40,7 @@
   --space-16: 16px;
   --space-24: 24px;
   --space-32: 32px;
+  --control-min-height: 40px;
+  --status-select-width: 160px;
   --pagination-button-min-width: 96px;
 }
