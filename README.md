@@ -14,6 +14,18 @@ npm run migrate:test
 npm run dev
 ```
 
+## Seed sample data (optional)
+
+After running the migration, seed the development database with sample tickets:
+
+```bash
+cd server
+npm run seed
+npm run seed -- --reset
+```
+
+The `--reset` command deletes all existing tickets in the development database before seeding.
+
 Check the server:
 
 ```bash
