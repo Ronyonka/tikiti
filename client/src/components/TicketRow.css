@@ -1,0 +1,5 @@
+.ticket-row { min-width: 0; padding: var(--space-16); border: 1px solid var(--color-outline); border-radius: var(--radius-md); background: var(--color-surface-variant); }
+.ticket-row h2 { margin: 0; color: var(--color-on-surface); font-size: var(--font-size-body-md); font-weight: var(--font-weight-body-md); line-height: var(--line-height-body); }
+.ticket-description { display: -webkit-box; margin: var(--space-8) 0 0; overflow: hidden; color: var(--color-on-surface-variant); font-size: var(--font-size-body-sm); font-weight: var(--font-weight-body-sm); line-height: var(--line-height-body); -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.ticket-meta { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-8); margin-top: var(--space-12); }
+.ticket-meta time { color: var(--color-on-surface-variant); font-size: var(--font-size-label); font-weight: var(--font-weight-label); }
